@@ -12,7 +12,7 @@ describe 'sending an invoice reminder' do
       {user: {email: 'joe@doe.com'}, next_invoice_at: '2010-10-15', plan: {
         name: 'Basic Plan', price_per_cycle: '120.5', currency: 'EUR'}}]
 
-    Timecop.travel(2010, 10, 10) { InvoiceReminderService.new.call(reminder) }
+    Timecop.travel(2010, 10, 10, 12) { InvoiceReminderService.new.call(reminder) }
 
     expect(inbox_for('joe@doe.com')).to include_email(subject: 'Incoming invoice',
       body: 'You will be receiving an invoice for your plan Basic Plan costing 120.50 EUR in 5 days.')
