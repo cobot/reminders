@@ -7,7 +7,10 @@
         <%= reminder.subject %>
         (<%= pluralize reminder.days_before, 'day before', 'days before' %>)
       </h3>
-      <p><%= link_to 'Edit', edit_space_reminder_path(space, reminder) %></p>
+      <p>
+        <%= link_to 'Edit', edit_space_reminder_path(space, reminder) %>,
+        <%= link_to 'Remove', space_reminder_path(space, reminder), method: :delete, confirm: 'Really remove this reminder?' %>
+      </p>
     </li>
   <% end %>
 </ul>

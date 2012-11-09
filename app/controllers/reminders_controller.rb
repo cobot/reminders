@@ -36,6 +36,12 @@ class RemindersController < ApplicationController
     end
   end
 
+  def destroy
+    reminder = space.reminders.find params[:id]
+    reminder.destroy
+    redirect_to space_reminders_path(space), notice: 'Reminder removed.'
+  end
+
   private
 
   def space
