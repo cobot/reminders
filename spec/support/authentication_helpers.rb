@@ -4,7 +4,7 @@ module AuthenticationHelpers
     OmniAuth.config.add_mock :cobot,
       credentials: {token: 'access-token-1'},
       provider: 'cobot',
-      uid: '123545',
+      uid: options[:id] || '123545',
       "user_info"=>{"name"=>"janesmith",
         "email"=>"janesmith@example.com"},
       extra: {
