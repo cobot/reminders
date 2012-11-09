@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121107153411) do
+ActiveRecord::Schema.define(:version => 20121109131200) do
 
   create_table "reminders", :force => true do |t|
     t.string  "space_id"
@@ -19,6 +19,12 @@ ActiveRecord::Schema.define(:version => 20121107153411) do
     t.string  "access_token"
     t.text    "body"
     t.integer "days_before"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string "cobot_id"
+    t.string "access_token"
+    t.text   "admin_of"
   end
 
 end

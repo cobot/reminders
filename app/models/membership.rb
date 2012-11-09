@@ -1,7 +1,7 @@
 class Membership
   include Virtus
 
-  attribute :user, User
+  attribute :user, CobotUser
   attribute :plan, Plan
   attribute :next_invoice_at, Date
 

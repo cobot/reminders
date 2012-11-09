@@ -1,0 +1,10 @@
+<h1>Reminders for <%= space.subdomain %></h1>
+
+<ul>
+  <% @reminders.each do |reminder| %>
+    <li>
+      <%= reminder.subject %>
+      (<%= pluralize reminder.days_before, 'day before', 'days before' %>)
+    </li>
+  <% end %>
+</ul>

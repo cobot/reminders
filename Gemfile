@@ -9,6 +9,7 @@ gem 'liquid'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem 'omniauth_cobot', git: 'git@github.com:cobot/cobot_omniauth.git', ref: '755bd6f806124202de4928eb1b21dd5718b00d4f'
 
 
 # Gems used only for assets and not required

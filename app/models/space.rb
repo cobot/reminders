@@ -9,6 +9,14 @@ class Space
     super attributes
   end
 
+  def subdomain
+    url.split('/').last
+  end
+
+  def to_param
+    subdomain
+  end
+
   def self.find(space_id, access_token)
     new oauth(access_token).get("/api/spaces/#{space_id}").parsed, access_token
   end
@@ -17,6 +25,10 @@ class Space
     oauth.get("#{url}/api/memberships").parsed.map do |attributes|
       Membership.new attributes, @access_token
     end
+  end
+
+  def reminders
+    Reminder.where(space_id: subdomain)
   end
 
   private

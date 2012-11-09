@@ -1,5 +1,9 @@
-class User
-  include Virtus::ValueObject
+class User < ActiveRecord::Base
+  serialize :admin_of
 
-  attribute :email, String
+  def spaces
+    admin_of.map do |admin|
+      Space.new({url: admin['space_link']}, access_token)
+    end
+  end
 end
