@@ -1,16 +1,21 @@
-<h1>Reminders for <%= space.subdomain %></h1>
+<div class="page-header">
+  <h1>Reminders for <%= space.subdomain %></h1>
+  <p class="lead">Here you can add/remove reminders.</p>
+</div>
 
-<ul>
+<ul class="unstyled">
   <% @reminders.each do |reminder| %>
     <li>
       <h3>
+        <div style="float: right">
+          <%= link_to 'Edit', edit_space_reminder_path(space, reminder), class: 'btn' %>
+          <%= link_to 'Remove', space_reminder_path(space, reminder), method: :delete, confirm: 'Really remove this reminder?', class: 'btn btn-danger' %>
+        </div>
         <%= reminder.subject %>
-        (<%= pluralize reminder.days_before, 'day before', 'days before' %>)
+        <small>(<%= pluralize reminder.days_before, 'day before', 'days before' %>)</small>
       </h3>
-      <p>
-        <%= link_to 'Edit', edit_space_reminder_path(space, reminder) %>,
-        <%= link_to 'Remove', space_reminder_path(space, reminder), method: :delete, confirm: 'Really remove this reminder?' %>
-      </p>
     </li>
   <% end %>
 </ul>
+
+<p><%= link_to 'Add Reminder', new_space_reminder_path(space), class: 'btn btn-primary' %></p>

@@ -1,6 +1,11 @@
-<h1>New Reminder</h1>
+<div class="page-header">
+  <h1>New Reminder</h1>
+  <p class="lead">Adding a reminder will send an email to each member <em>x</em> days before an invoice is due.</p>
+</div>
 
-<%= form_for @reminder, url: space_reminders_path(space) do |f| %>
+<%= simple_form_for @reminder, url: space_reminders_path(space), html: {class: 'form-horizontal'} do |f| %>
   <%= render 'form', f: f %>
-  <%= f.submit 'Set Reminder' %>
+  <div class="form-actions">
+    <%= f.button :submit, value: 'Set Reminder', class: 'btn-primary' %>
+  </div>
 <% end %>

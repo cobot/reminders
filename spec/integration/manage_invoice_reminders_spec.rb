@@ -5,8 +5,8 @@ describe 'settings up an invoice reminder' do
     stub_user spaces: ['mutinerie']
     visit root_path
     click_link 'Sign in'
-    fill_in 'Subject', with: 'invoice coming'
-    fill_in 'Body', with: 'price: {{ price }}'
+    fill_in 'Email subject', with: 'invoice coming'
+    fill_in 'Email body', with: 'price: {{ price }}'
     fill_in 'Days before', with: '4'
     click_button 'Set Reminder'
 
@@ -29,7 +29,7 @@ describe 'editing an invoice reminder' do
     visit space_reminders_path('mutinerie')
     click_link 'Edit'
 
-    fill_in 'Subject', with: 'Invoice incoming'
+    fill_in 'Email subject', with: 'Invoice incoming'
     click_button 'Change Reminder'
 
     visit space_reminders_path('mutinerie')

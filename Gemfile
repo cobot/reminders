@@ -4,6 +4,10 @@ gem 'rails', '3.2.8'
 gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
+gem 'simple_form'
+gem "therubyracer"
+gem "less-rails"
+gem 'less-rails-bootstrap'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

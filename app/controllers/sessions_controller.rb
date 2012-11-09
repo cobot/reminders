@@ -10,6 +10,11 @@ class SessionsController < ApplicationController
     redirect_to spaces_path
   end
 
+  def destroy
+    session.clear
+    redirect_to root_path
+  end
+
   protected
 
   def auth_hash
