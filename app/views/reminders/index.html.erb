@@ -3,8 +3,11 @@
 <ul>
   <% @reminders.each do |reminder| %>
     <li>
-      <%= reminder.subject %>
-      (<%= pluralize reminder.days_before, 'day before', 'days before' %>)
+      <h3>
+        <%= reminder.subject %>
+        (<%= pluralize reminder.days_before, 'day before', 'days before' %>)
+      </h3>
+      <p><%= link_to 'Edit', edit_space_reminder_path(space, reminder) %></p>
     </li>
   <% end %>
 </ul>
