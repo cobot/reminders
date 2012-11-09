@@ -14,7 +14,7 @@ class AuthenticationService
     User.create! do |user|
       user.cobot_id = auth_hash.uid
       user.access_token = access_token
-      user.admin_of = auth_hash.extra.user_hash.admin_of
+      user.admin_of = auth_hash.extra.raw_info.admin_of
     end
   end
 end

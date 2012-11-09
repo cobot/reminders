@@ -1,3 +1,3 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :cobot, '<client_id>', '<client_secret>', scope: 'read write'
+  provider :cobot, Reminders::Config.app_id,  Reminders::Config.app_secret, scope: 'read'
 end

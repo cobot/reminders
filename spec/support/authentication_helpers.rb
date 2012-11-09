@@ -8,7 +8,7 @@ module AuthenticationHelpers
       "user_info"=>{"name"=>"janesmith",
         "email"=>"janesmith@example.com"},
       extra: {
-        user_hash: {
+        raw_info: {
           login: "janesmith",
           email: "janesmith@example.com",
           id: "user-janesmith",

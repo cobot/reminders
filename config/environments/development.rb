@@ -35,3 +35,6 @@ Reminders::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 end
+
+Reminders::Config = OpenStruct.new app_id: 'f2c706e5578a2011321f7bffcb961f95',
+    app_secret: 'd7d18a66aa6ad918db328810f0a88c4d578055fc3023cde36fb8e2372ffd710b'
