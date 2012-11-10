@@ -23,7 +23,7 @@ class Space
 
   def memberships
     oauth.get("#{url}/api/memberships").parsed.map do |attributes|
-      Membership.new attributes, @access_token
+      Membership.new attributes
     end
   end
 

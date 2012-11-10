@@ -1,0 +1,7 @@
+<%= simple_form_for reminder, url: space_reminders_path(space), html: {class: 'form-horizontal'} do |f| %>
+  <%= render 'form', f: f %>
+  <div class="form-actions">
+    <%= f.button :submit, value: 'Set Reminder', class: 'btn-primary' %>
+    <%= f.button :submit, value: 'Preview' %>
+  </div>
+<% end %>

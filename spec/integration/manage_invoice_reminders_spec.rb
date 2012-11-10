@@ -15,6 +15,20 @@ describe 'settings up an invoice reminder' do
   end
 end
 
+describe 'previewing an invoice reminder' do
+  it 'renders the liquid template' do
+    stub_user spaces: ['mutinerie']
+    visit root_path
+    click_link 'Sign in'
+    fill_in 'Email subject', with: 'invoice coming'
+    fill_in 'Email body', with: 'plan: {{plan.name}}, price: {{plan.price_per_cycle | money}} {{plan.currency}}'
+    fill_in 'Days before', with: '4'
+    click_button 'Preview'
+
+    expect(page).to have_content('plan: Full Time, price: 120.00 EUR')
+  end
+end
+
 describe 'editing an invoice reminder' do
   before(:each) do
     stub_user spaces: ['mutinerie']

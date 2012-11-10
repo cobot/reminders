@@ -5,8 +5,7 @@ class Membership
   attribute :plan, Plan
   attribute :next_invoice_at, Date
 
-  def initialize(attribute, access_token)
+  def initialize(attribute)
     super attribute
   end
-
 end
