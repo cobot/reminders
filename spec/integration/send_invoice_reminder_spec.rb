@@ -10,7 +10,7 @@ describe 'sending an invoice reminder' do
     stub_space 'space-mutinerie'
     stub_memberships 'space-mutinerie', [
       {user: {email: 'joe@doe.com'}, next_invoice_at: '2010-10-15', plan: {
-        name: 'Basic Plan', price_per_cycle: '120.5', currency: 'EUR'}}]
+        name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}}]
 
     Timecop.travel(2010, 10, 10, 12) {
       post reminder_notifications_path, token: Reminders::Config.api_token
