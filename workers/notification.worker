@@ -1,0 +1,3 @@
+runtime 'ruby'
+merge_gem 'httparty'
+exec 'notification_worker.rb'

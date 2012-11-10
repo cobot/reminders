@@ -5,6 +5,7 @@ gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
 gem 'simple_form'
+gem 'iron_worker_ng'
 
 gem 'pg'
 gem 'omniauth'
