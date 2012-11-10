@@ -1,10 +1,13 @@
 require 'spec_helper'
 
 describe 'settings up an invoice reminder' do
-  it 'saves the reminder' do
+  before(:each) do
     stub_user spaces: ['mutinerie']
     visit root_path
     click_link 'Sign in'
+  end
+
+  it 'saves the reminder' do
     fill_in 'Email subject', with: 'invoice coming'
     fill_in 'Email body', with: 'price: {{ price }}'
     fill_in 'Days before', with: '4'
@@ -13,13 +16,8 @@ describe 'settings up an invoice reminder' do
     visit space_reminders_path('mutinerie')
     expect(page).to have_content('invoice coming')
   end
-end
 
-describe 'previewing an invoice reminder' do
-  it 'renders the liquid template' do
-    stub_user spaces: ['mutinerie']
-    visit root_path
-    click_link 'Sign in'
+  it 'lets me preview the email body' do
     fill_in 'Email subject', with: 'invoice coming'
     fill_in 'Email body', with: 'plan: {{plan.name}}, price: {{plan.price_per_cycle | money}} {{plan.currency}}'
     fill_in 'Days before', with: '4'
@@ -48,6 +46,16 @@ describe 'editing an invoice reminder' do
 
     visit space_reminders_path('mutinerie')
     expect(page).to have_content('Invoice incoming')
+  end
+
+  it 'lets me preview the email body' do
+    visit space_reminders_path('mutinerie')
+    click_link 'Edit'
+
+    fill_in 'Email body', with: 'plan: {{plan.name}}'
+    click_button 'Preview'
+
+    expect(page).to have_content('plan: Full Time')
   end
 end
 

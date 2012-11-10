@@ -4,4 +4,4 @@
 
   <pre><%= render_liquid(sample_membership, @reminder) %></pre>
 
-<%= render 'new_form', reminder: @reminder %>
+<%= render "#{@action}_form", reminder: @reminder %>

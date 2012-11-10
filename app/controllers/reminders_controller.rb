@@ -20,6 +20,7 @@ class RemindersController < ApplicationController
   def create
     @reminder = space.reminders.build params[:reminder]
     if params[:commit] == 'Preview'
+      @action = 'new'
       render 'preview'
     else
       if @reminder.save
@@ -33,10 +34,15 @@ class RemindersController < ApplicationController
   def update
     @reminder = space.reminders.find params[:id]
     @reminder.attributes = params[:reminder]
-    if @reminder.save
-      redirect_to space_reminders_path(space), notice: 'Reminder changed.'
+    if params[:commit] == 'Preview'
+      @action = 'edit'
+      render 'preview'
     else
-      render 'edit'
+      if @reminder.save
+        redirect_to space_reminders_path(space), notice: 'Reminder changed.'
+      else
+        render 'edit'
+      end
     end
   end
 
