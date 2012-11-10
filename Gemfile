@@ -5,11 +5,10 @@ gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
 gem 'simple_form'
-gem "therubyracer"
-gem "less-rails"
-gem 'less-rails-bootstrap'
 
 gem 'pg'
+gem 'omniauth'
+gem 'omniauth-oauth2'
 gem 'omniauth_cobot'
 
 gem 'jquery-rails'
