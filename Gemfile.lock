@@ -1,11 +1,3 @@
-GIT
-  remote: git@github.com:cobot/cobot_omniauth.git
-  revision: 755bd6f806124202de4928eb1b21dd5718b00d4f
-  ref: 755bd6f806124202de4928eb1b21dd5718b00d4f
-  specs:
-    omniauth_cobot (0.0.1)
-      omniauth-oauth2
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -99,9 +91,8 @@ GEM
     omniauth (1.1.1)
       hashie (~> 1.2)
       rack
-    omniauth-oauth2 (1.1.1)
-      oauth2 (~> 0.8.0)
-      omniauth (~> 1.0)
+    omniauth_cobot (0.0.1)
+      omniauth
     pg (0.14.1)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -191,7 +182,7 @@ DEPENDENCIES
   less-rails-bootstrap
   liquid
   oauth2
-  omniauth_cobot!
+  omniauth_cobot
   pg
   rails (= 3.2.8)
   rspec-rails
