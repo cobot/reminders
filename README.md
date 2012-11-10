@@ -16,11 +16,15 @@ If you want to use iron.io's IronWorker for triggering the emails there is a wor
 Schedule it like this (run the app's Rails console from the workers directory):
 
     client = IronWorkerNG::Client.new
-    client.schedules.create('notification',
-      {callback_url: app.reminder_notifications_url(api_token: Reminders::Config.api_token))},
+
+    code = IronWorkerNG::Code::Base.new(workerfile: "notification.worker")
+    client.codes.create(code)
+
+    client.schedules.create('notification_worker',
+      {callback_url: app.reminder_notifications_url(host: 'reminders.app.cobot.me', token: <your api token>))},
       {
         start_at: Time.now,
         run_every: 60 * 60 * 24}) # every day
-    client.tasks.schedule("notification",
+
 
 For sending emails if you want to use Mailgun.org you have to set up the environment variables from `production.rb`.
