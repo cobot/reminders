@@ -65,3 +65,6 @@ Reminders::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
+
+Reminders::Config = OpenStruct.new app_id: ENV['COBOT_APP_ID'],
+    app_secret: ENV['COBOT_APP_SECRET']
