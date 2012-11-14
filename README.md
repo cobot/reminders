@@ -27,4 +27,4 @@ Schedule it like this (run the app's Rails console from the workers directory):
         run_every: 60 * 60 * 24}) # every day
 
 
-For sending emails if you want to use Mailgun.org you have to set up the environment variables from `production.rb`.
+For sending emails postmarkapp.com is used by default. Uou have to set your Postmak API key as an environment variable POSTMARK_API_KEY.
