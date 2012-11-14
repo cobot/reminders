@@ -1,4 +1,6 @@
-Reminders is an Cobot app that sends an email to each member of a space a number of days before the next invoice is due.
+Reminders is a Cobot app that sends an email to each member of a space a number of days before the next invoice is due.
+
+The official installation runs under <http://reminders.apps.cobot.me>
 
 ## Setup
 
@@ -21,10 +23,10 @@ Schedule it like this (run the app's Rails console from the workers directory):
     client.codes.create(code)
 
     client.schedules.create('notification_worker',
-      {callback_url: app.reminder_notifications_url(host: 'reminders.app.cobot.me', token: <your api token>))},
+      {callback_url: app.reminder_notifications_url(host: '<hostname of the app>', token: <your api token>))},
       {
         start_at: Time.now,
         run_every: 60 * 60 * 24}) # every day
 
 
-For sending emails postmarkapp.com is used by default. Uou have to set your Postmak API key as an environment variable POSTMARK_API_KEY.
+For sending emails postmarkapp.com is used by default. You have to set your Postmak API key as an environment variable POSTMARK_API_KEY.
