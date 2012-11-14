@@ -7,7 +7,7 @@ module LiquidHelper
 
   def render_liquid(membership, reminder)
     context = Liquid::Context.new('plan' => LiquidModelDecorator.new(membership.plan),
-      'membership' => LiquidModelDecorator.new(membership.attributes),
+      'member' => LiquidModelDecorator.new(membership),
       'days' => reminder.days_before)
     context.add_filters MoneyFilter
     Liquid::Template.parse(reminder.body).render(context)
