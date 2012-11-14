@@ -17,7 +17,9 @@ The official installation runs under <http://reminders.apps.cobot.me>
 
 If you want to use iron.io's IronWorker for triggering the emails there is a worker at `workers/notification_worker`.
 
-Schedule it like this (run the app's Rails console from the workers directory):
+First download and copy `iron.json` into the workers directory.
+
+Schedule the worker like this (run the app's Rails console from the workers directory):
 
     client = IronWorkerNG::Client.new
 
