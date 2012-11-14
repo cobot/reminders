@@ -19,6 +19,7 @@ class RemindersController < ApplicationController
 
   def create
     @reminder = space.reminders.build params[:reminder]
+    @reminder.access_token = current_user.access_token
     if params[:commit] == 'Preview'
       @action = 'new'
       render 'preview'

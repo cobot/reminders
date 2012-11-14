@@ -1,4 +1,9 @@
 module AuthenticationHelpers
+  def log_in(user)
+    User.stub(:find).with(1) {user}
+    session[:user_id] = 1
+  end
+
   def stub_user(options = {})
     spaces = (options[:spaces] || []).map{|subdomain| {space_link: "https://www.cobot.me/api/spaces/#{subdomain}"}}
     OmniAuth.config.add_mock :cobot,

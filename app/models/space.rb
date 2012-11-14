@@ -38,12 +38,10 @@ class Space
   end
 
   def self.oauth(access_token)
-    @oauth ||= OAuth2::AccessToken.new(oauth_client, access_token)
+    OAuth2::AccessToken.new(oauth_client, access_token)
   end
 
   def self.oauth_client
     @client ||= OAuth2::Client.new(nil, nil, site: 'https://www.cobot.me')
   end
-
-
 end

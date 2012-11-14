@@ -8,11 +8,24 @@ describe RemindersController do
   end
 
   it 'works when authenticated' do
-    User.stub(:find).with(1) {stub(:user, spaces: [stub(:space, to_param: '1', reminders: [stub])])}
-    session[:user_id] = 1
+    log_in stub(:user, spaces: [stub(:space, to_param: '1', reminders: [stub])])
 
     get :index, space_id: '1'
 
     expect(response).to be_success
+  end
+end
+
+describe RemindersController, '#create' do
+  it 'sets the access token' do
+    reminder = stub(:reminder).as_null_object
+    space = stub(:space, to_param: 'co-up')
+    space.stub_chain(:reminders, :build) {reminder}
+    user = stub(:user, access_token: '123', spaces: [space])
+    log_in user
+
+    reminder.should_receive(:access_token=).with('123')
+
+    post :create, reminder: {}, space_id: 'co-up'
   end
 end
