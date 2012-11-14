@@ -1,7 +1,7 @@
 module ApplicationHelper
   def default_body
     <<-BODY
-Hi,
+Hi {{member.address.name}},
 
 this is just a reminder that you will be receiving an invoice from us in {{days}} days.
 
