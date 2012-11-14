@@ -1,5 +1,7 @@
 Reminders is a Cobot app that sends an email to each member of a space a number of days before the next invoice is due.
 
+[![Build Status](https://secure.travis-ci.org/cobot/reminders.png?branch=master)](https://travis-ci.org/cobot/reminders)
+
 The official installation runs under <http://reminders.apps.cobot.me>
 
 ## Setup
