@@ -2,6 +2,6 @@
   <h1>Reminder Preview</h1>
 </div>
 
-  <pre><%= render_liquid(sample_membership, @reminder) %></pre>
+  <pre><%= render_liquid(sample_membership, sample_membership.plan, @reminder) %></pre>
 
 <%= render "#{@action}_form", reminder: @reminder %>

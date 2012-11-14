@@ -4,7 +4,7 @@ describe InvoiceReminderService, '#call' do
   let(:service) {InvoiceReminderService.new}
   let(:membership) {stub(:membership, plan: plan, next_invoice_at: 2.days.from_now.to_date,
     user: stub(:user))}
-  let(:plan) {stub(:plan, free?: false)}
+  let(:plan) {stub(:plan, free?: false, canceled_to: nil)}
   let(:space) {stub(:space, memberships: [membership])}
   let(:reminder) {stub(:reminder, space: space, days_before: 2)}
 
@@ -13,7 +13,7 @@ describe InvoiceReminderService, '#call' do
   end
 
   it 'sends an email to members whose next invoice is due in the given no. of days' do
-    ReminderMailer.should_receive(:invoice_reminder).with(space, membership, reminder)
+    ReminderMailer.should_receive(:invoice_reminder).with(space, membership, plan, reminder)
 
     service.call reminder
   end

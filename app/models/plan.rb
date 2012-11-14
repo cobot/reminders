@@ -5,6 +5,7 @@ class Plan
   attribute :price_per_cycle_in_cents, Fixnum
   attribute :price_per_cycle, BigDecimal
   attribute :currency, String
+  attribute :canceled_to, Date
 
   def initialize(*args)
     super
