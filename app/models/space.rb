@@ -10,7 +10,7 @@ class Space
   end
 
   def subdomain
-    url.split('/').last
+    url.match(%r{https://([^\.]+)\.cobot\.me})[1]
   end
 
   def to_param

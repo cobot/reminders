@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
 
   def spaces
     admin_of.map do |admin|
-      Space.new({url: admin['space_link']}, access_token)
+      subdomain = admin['space_link'].split('/').last
+      Space.new({url: "https://#{subdomain}.cobot.me"}, access_token)
     end
   end
 end
