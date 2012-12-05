@@ -1,6 +1,6 @@
 module EmailHelpers
   def inbox_for(email_address)
-    ActionMailer::Base.deliveries.select{|email| email.to.include?(email_address)}
+    ActionMailer::Base.deliveries.select{|email| (email.to + (email.bcc || [])).include?(email_address)}
   end
 end
 
