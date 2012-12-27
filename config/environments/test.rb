@@ -38,3 +38,5 @@ end
 
 Reminders::Config = OpenStruct.new(app_id: '123', app_secret: '456', app_site: 'https://www.cobot.me',
   api_token: '123')
+
+ENV['SECRET_TOKEN'] = '123' * 10
