@@ -16,7 +16,7 @@ describe 'sending an invoice reminder' do
         name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}}]
 
     Timecop.travel(2010, 10, 10, 12) {
-      post reminder_notifications_path, token: Reminders::Config.api_token
+      InvoiceReminderService.send_reminders
     }
 
     expect(inbox_for('joe@doe.com')).to include_email(subject: 'Incoming invoice',
@@ -30,7 +30,7 @@ describe 'sending an invoice reminder' do
         name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}}]
 
     Timecop.travel(2010, 10, 10, 12) {
-      post reminder_notifications_path, token: Reminders::Config.api_token
+      InvoiceReminderService.send_reminders
     }
 
     expect(inbox_for('jane@doe.com')).to include_email(subject: 'Incoming invoice',
@@ -44,7 +44,7 @@ describe 'sending an invoice reminder' do
         upcoming_plan: {name: 'New Plan', price_per_cycle_in_cents: 10000, currency: 'EUR'}}]
 
     Timecop.travel(2010, 10, 10, 12) {
-      post reminder_notifications_path, token: Reminders::Config.api_token
+      InvoiceReminderService.send_reminders
     }
 
     expect(inbox_for('joe@doe.com')).to include_email(subject: 'Incoming invoice',

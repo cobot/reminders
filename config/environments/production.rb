@@ -70,4 +70,4 @@ Reminders::Application.configure do
 end
 
 Reminders::Config = OpenStruct.new app_id: ENV['COBOT_APP_ID'],
-    app_secret: ENV['COBOT_APP_SECRET'], api_token: ENV['API_TOKEN']
+    app_secret: ENV['COBOT_APP_SECRET']

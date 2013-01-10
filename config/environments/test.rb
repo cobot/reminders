@@ -36,7 +36,6 @@ Reminders::Application.configure do
   config.active_support.deprecation = :stderr
 end
 
-Reminders::Config = OpenStruct.new(app_id: '123', app_secret: '456', app_site: 'https://www.cobot.me',
-  api_token: '123')
+Reminders::Config = OpenStruct.new(app_id: '123', app_secret: '456', app_site: 'https://www.cobot.me')
 
 ENV['SECRET_TOKEN'] = '123' * 10

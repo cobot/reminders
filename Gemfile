@@ -5,8 +5,6 @@ gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
 gem 'simple_form'
-gem 'iron_worker_ng'
-gem 'httparty' # for the worker
 gem 'email_validator'
 
 gem 'pg'

@@ -8,6 +8,13 @@ class InvoiceReminderService
     end
   end
 
+  def self.send_reminders
+    service = new
+    Reminder.all.each do |reminder|
+      service.call(reminder)
+    end
+  end
+
   private
 
   def current_plan(membership)

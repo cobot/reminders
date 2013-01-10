@@ -6,5 +6,4 @@ Reminders::Application.routes.draw do
   resources :spaces, only: :index do
     resources :reminders
   end
-  resources :reminder_notifications, only: :create
 end
