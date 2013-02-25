@@ -6,6 +6,7 @@ gem 'virtus'
 gem 'liquid'
 gem 'simple_form'
 gem 'email_validator'
+gem 'sentry-raven'
 
 gem 'pg'
 gem 'omniauth'
