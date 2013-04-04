@@ -3,6 +3,7 @@ class Space
 
   attribute :url
   attribute :name
+  attribute :email
 
   def initialize(attributes, access_token)
     @access_token = access_token

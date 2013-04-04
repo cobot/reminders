@@ -2,7 +2,7 @@ class ReminderMailer < ActionMailer::Base
   include LiquidHelper
 
   def invoice_reminder(space, membership, plan, reminder)
-    mail from: 'support@cobot.me',
+    mail from: space.email || 'support@cobot.me',
       bcc: reminder.bcc,
       to: membership.user.email,
       subject: reminder.subject do |format|

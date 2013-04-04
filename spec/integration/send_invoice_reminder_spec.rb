@@ -7,7 +7,7 @@ describe 'sending an invoice reminder' do
       days_before: 5 do |r|
         r.space_id = 'space-mutinerie'
     end
-    stub_space 'space-mutinerie'
+    stub_space 'space-mutinerie', email: 'crew@mutinerie.org'
   end
 
   it 'sends an email to each member' do
@@ -20,7 +20,8 @@ describe 'sending an invoice reminder' do
     }
 
     expect(inbox_for('joe@doe.com')).to include_email(subject: 'Incoming invoice',
-      body: 'Hi Xavier. You will be receiving an invoice for your plan Basic Plan costing 120.50 EUR in 5 days.')
+      body: 'Hi Xavier. You will be receiving an invoice for your plan Basic Plan costing 120.50 EUR in 5 days.',
+      from: 'crew@mutinerie.org')
   end
 
   it 'bccs the email to the bcc address if one is set' do

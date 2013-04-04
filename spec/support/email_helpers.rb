@@ -16,10 +16,13 @@ RSpec::Matchers.define :include_email do |options|
     matching_email = emails.find do |email|
       match = true
       if options[:subject]
-        match = match && email.subject =~ /#{options[:subject]}/
+        match &&= email.subject =~ /#{options[:subject]}/
       end
       if options[:body]
-        match = match && options[:body] == email.body.to_s
+        match &&= options[:body] == email.body.to_s
+      end
+      if options[:from]
+        match &&= [options[:from]] == email.from
       end
       match
     end
