@@ -91,8 +91,8 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
-    omniauth_cobot (0.0.1)
-      omniauth
+    omniauth_cobot (0.0.3)
+      omniauth-oauth2
     pg (0.14.1)
     polyglot (0.3.3)
     rack (1.4.3)
@@ -193,7 +193,7 @@ DEPENDENCIES
   oauth2
   omniauth
   omniauth-oauth2
-  omniauth_cobot
+  omniauth_cobot (~> 0.0.3)
   pg
   rails (~> 3.2.11)
   rspec-rails

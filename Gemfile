@@ -11,7 +11,7 @@ gem 'sentry-raven'
 gem 'pg'
 gem 'omniauth'
 gem 'omniauth-oauth2'
-gem 'omniauth_cobot'
+gem 'omniauth_cobot', '~>0.0.3'
 
 gem 'jquery-rails'
 
