@@ -23,7 +23,7 @@ class Space
   end
 
   def memberships
-    oauth.get("#{url}/api/memberships").parsed.map do |attributes|
+    (oauth.get("#{url}/api/memberships").parsed || []).map do |attributes|
       Membership.new attributes
     end
   end

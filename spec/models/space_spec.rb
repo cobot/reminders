@@ -7,3 +7,11 @@ describe Space, '#subdomain' do
     expect(space.subdomain).to eql('co-up')
   end
 end
+
+describe Space, '#memberships' do
+  it 'returns an em[ty array if the api call returns 404' do
+    OAuth2::AccessToken.stub(new: stub(:token, get: stub(:response, parsed: nil)))
+
+    expect(Space.new({}, '').memberships).to eql([])
+  end
+end
