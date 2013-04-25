@@ -11,7 +11,9 @@ class InvoiceReminderService
   def self.send_reminders
     service = new
     Reminder.all.each do |reminder|
-      service.call(reminder)
+      Raven.capture do
+        service.call(reminder)
+      end
     end
   end
 
