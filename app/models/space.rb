@@ -19,7 +19,11 @@ class Space
   end
 
   def self.find(space_id, access_token)
-    new oauth(access_token).get("/api/spaces/#{space_id}").parsed, access_token
+    begin
+      new oauth(access_token).get("/api/spaces/#{space_id}").parsed, access_token
+    rescue OAuth2::Error
+      nil
+    end
   end
 
   def memberships

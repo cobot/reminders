@@ -1,9 +1,11 @@
 class InvoiceReminderService
   def call(reminder)
-    reminder.space.memberships.select{|membership| membership.user && membership.next_invoice_at}.each do |membership|
-      plan = current_plan membership
-      if !plan.free? && membership.next_invoice_at == reminder.days_before.days.from_now.to_date
-        ReminderMailer.invoice_reminder(reminder.space, membership, plan, reminder).deliver
+    if space = reminder.space
+      space.memberships.select{|membership| membership.user && membership.next_invoice_at}.each do |membership|
+        plan = current_plan membership
+        if !plan.free? && membership.next_invoice_at == reminder.days_before.days.from_now.to_date
+          ReminderMailer.invoice_reminder(reminder.space, membership, plan, reminder).deliver
+        end
       end
     end
   end

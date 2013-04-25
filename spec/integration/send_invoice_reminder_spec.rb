@@ -51,4 +51,13 @@ describe 'sending an invoice reminder' do
     expect(inbox_for('joe@doe.com')).to include_email(subject: 'Incoming invoice',
       body: 'Hi Xavier. You will be receiving an invoice for your plan New Plan costing 100.00 EUR in 5 days.')
   end
+
+  it 'skips a deleted space' do
+    Raven.stub(:capture).and_yield
+    WebMock.stub_request(:get, %r{spaces/space-mutinerie}).to_return(status: 404)
+
+    expect {
+      InvoiceReminderService.send_reminders
+    }.to_not raise_error
+  end
 end
