@@ -17,6 +17,7 @@ gem 'jquery-rails'
 
 group :production do
   gem 'simple_postmark'
+  gem 'lograge'
 end
 
 group :assets do
