@@ -1,12 +1,13 @@
 require 'spec_helper'
 
 describe InvoiceReminderService, '#call' do
-  let(:service) {InvoiceReminderService.new}
-  let(:membership) {stub(:membership, plan: plan, next_invoice_at: 2.days.from_now.to_date,
-    user: stub(:user))}
-  let(:plan) {stub(:plan, free?: false, canceled_to: nil)}
-  let(:space) {stub(:space, memberships: [membership])}
-  let(:reminder) {stub(:reminder, space: space, days_before: 2)}
+  let(:service) { InvoiceReminderService.new }
+  let(:membership) {
+    stub(:membership, plan: plan, next_invoice_at: 2.days.from_now.to_date,
+      user: stub(:user)).as_null_object }
+  let(:plan) { stub(:plan, free?: false, canceled_to: nil) }
+  let(:space) { stub(:space, memberships: [membership]).as_null_object }
+  let(:reminder) { stub(:reminder, space: space, days_before: 2) }
 
   before(:each) do
     ReminderMailer.stub(:invoice_reminder) {stub.as_null_object}
