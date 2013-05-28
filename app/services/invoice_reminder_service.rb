@@ -7,7 +7,11 @@ class InvoiceReminderService
         plan = current_plan membership
         if !plan.free? && membership.next_invoice_at == reminder.days_before.days.from_now.to_date
           log "Sending reminder to member #{membership.address.name}"
-          ReminderMailer.invoice_reminder(reminder.space, membership, plan, reminder).deliver
+          begin
+            ReminderMailer.invoice_reminder(reminder.space, membership, plan, reminder).deliver
+          rescue SimplePostmark::APIError
+            # ignore, probably email blocked by postmark because of bounce
+          end
         end
       end
     end
