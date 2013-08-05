@@ -1,4 +1,4 @@
 <%= f.input :subject, label: 'Email subject' %>
 <%= f.input :bcc, label: 'Bcc', hint: "Send a copy of each email to this address" %>
 <%= f.input :body, label: 'Email body', hint: "You can use <a href=\"http://liquidmarkup.org/\">Liquid</a> markup here:<br/><em>{{plan.name}}</em> will be replaced with the plan's name.<br/> <i>{{plan.price_per_cycle | money}}</i> will print out the plan's price.<br/> You can also use: <i>plan.currency</i>, days (no. of days until invoice is sent) and any of <i>member.address.name/company/address/city/state/post_code/country</i>.", input_html: {rows: 9, value: (default_body if f.object.body.blank?), class: 'input-xxlarge input-block-level'} %>
-<%= f.input :days_before, hint: 'Send the email x days before the invoice is due.' %>
+<%= f.input :days_before, hint: 'Send the email x days before the invoice is due.', input_html: {min: 1} %>

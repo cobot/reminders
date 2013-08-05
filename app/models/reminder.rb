@@ -2,6 +2,7 @@ class Reminder < ActiveRecord::Base
   attr_accessible :subject, :body, :days_before, :bcc
 
   validates_presence_of :subject, :body
+  validates :days_before, numericality: {greater_than_or_equal_to: 1}
   validates :bcc, email: true, allow_blank: true
 
   def space
