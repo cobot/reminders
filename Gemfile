@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.1.2'
+
 gem 'rails', '~>3.2.11'
 gem 'oauth2'
 gem 'virtus'
@@ -12,6 +14,7 @@ gem 'pg'
 gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'omniauth_cobot', '~>0.0.3'
+gem 'cobot_client'
 
 gem 'jquery-rails'
 

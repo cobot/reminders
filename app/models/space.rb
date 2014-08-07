@@ -20,15 +20,19 @@ class Space
 
   def self.find(space_id, access_token)
     begin
-      new oauth(access_token).get("/api/spaces/#{space_id}").parsed, access_token
-    rescue OAuth2::Error
+      new cobot_client(access_token).get('www', "/spaces/#{space_id}"), access_token
+    rescue RestClient::ResourceNotFound
       nil
     end
   end
 
   def memberships
-    (oauth.get("#{url}/api/memberships").parsed || []).map do |attributes|
-      Membership.new attributes
+    begin
+      (cobot_client.get(subdomain, "/memberships")).map do |attributes|
+        Membership.new attributes
+      end
+    rescue RestClient::ResourceNotFound
+      []
     end
   end
 
@@ -38,15 +42,11 @@ class Space
 
   private
 
-  def oauth
-    self.class.oauth(@access_token)
+  def cobot_client
+    self.class.cobot_client(@access_token)
   end
 
-  def self.oauth(access_token)
-    OAuth2::AccessToken.new(oauth_client, access_token)
-  end
-
-  def self.oauth_client
-    @client ||= OAuth2::Client.new(nil, nil, site: 'https://www.cobot.me')
+  def self.cobot_client(access_token)
+    CobotClient::ApiClient.new access_token
   end
 end

@@ -9,9 +9,11 @@ describe Space, '#subdomain' do
 end
 
 describe Space, '#memberships' do
-  it 'returns an em[ty array if the api call returns 404' do
-    OAuth2::AccessToken.stub(new: stub(:token, get: stub(:response, parsed: nil)))
+  it 'returns an empty array if the api call returns 404' do
+    client = double(:client)
+    CobotClient::ApiClient.stub(new: client)
+    client.stub(:get).and_raise(RestClient::ResourceNotFound)
 
-    expect(Space.new({}, '').memberships).to eql([])
+    expect(Space.new({url: 'https://co-up.cobot.me'}, '').memberships).to eql([])
   end
 end
