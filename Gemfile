@@ -22,6 +22,7 @@ group :production do
   gem 'simple_postmark'
   gem 'lograge'
   gem 'rails_12factor'
+  gem 'puma'
 end
 
 group :assets do
