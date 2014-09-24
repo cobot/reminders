@@ -80,7 +80,7 @@ describe 'sending an invoice reminder' do
     stub_memberships 'space-mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, id: '307401865340876',
         next_invoice_at: '2010-10-15', plan: {
-          name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}},
+          name: 'Basic Plan', price_per_cycle_in_cents: 0, currency: 'EUR'}},
       {address: {name: 'Jane'}, id: '307401865340875',
         next_invoice_at: '2010-10-14', plan: {
           name: 'Team Plan', price_per_cycle_in_cents: 8000, currency: 'EUR'}}

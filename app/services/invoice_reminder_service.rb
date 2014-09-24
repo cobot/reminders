@@ -43,12 +43,23 @@ class InvoiceReminderService
   end
 
   def should_send_reminder?(membership, reminder, teams)
-    !membership.current_plan.free? &&
+    (!membership.current_plan.free? || is_paying_for_other_members?(teams, membership)) &&
       membership.next_invoice_at == reminder.days_before.days.from_now.to_date &&
-      !teams.map{|team| team[:memberships] }.flatten.find{|m|
-        m[:role] == 'paid' &&
-        m[:membership][:id] == membership.id
-      }
+      !is_paid_for_by_other_member?(teams, membership)
+  end
+
+  def is_paid_for_by_other_member?(teams, membership)
+    teams.map{|team| team[:memberships] }.flatten.find{|m|
+      m[:role] == 'paid' &&
+      m[:membership][:id] == membership.id
+    }
+  end
+
+  def is_paying_for_other_members?(teams, membership)
+    teams.map{|team| team[:memberships] }.flatten.find{|m|
+      m[:role] == 'paying' &&
+      m[:membership][:id] == membership.id
+    }
   end
 
   def log(message)

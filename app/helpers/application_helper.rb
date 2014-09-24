@@ -9,7 +9,7 @@ You current plan: {{ plan.name }}
 Price: {{plan.price_per_cycle | money}} {{plan.currency}}.
 
 {% if paid_for_members %}
-You are paying for these member:
+In addition you are paying for these members:
 {% for m in paid_for_members %}
 {{m.address.name}}: {{ m.plan.name }}, {{m.plan.price_per_cycle | money}} {{m.plan.currency}}
 {% endfor %}
