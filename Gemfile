@@ -36,7 +36,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'webmock'
+  gem 'webmock', require: 'webmock/rspec'
   gem 'launchy'
   gem 'timecop'
 end

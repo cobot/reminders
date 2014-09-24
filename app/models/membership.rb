@@ -1,6 +1,7 @@
 class Membership
   include Virtus
 
+  attribute :id, String
   attribute :user, CobotUser
   attribute :plan, Plan
   attribute :upcoming_plan, Plan

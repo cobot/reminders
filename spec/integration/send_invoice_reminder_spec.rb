@@ -8,6 +8,7 @@ describe 'sending an invoice reminder' do
         r.space_id = 'space-mutinerie'
     end
     stub_space 'space-mutinerie', email: 'crew@mutinerie.org'
+    stub_request(:get, 'https://mutinerie.cobot.me/api/teams').to_return(body: [].to_json)
   end
 
   it 'sends an email to each member' do
@@ -22,6 +23,31 @@ describe 'sending an invoice reminder' do
     expect(inbox_for('joe@doe.com')).to include_email(subject: 'Incoming invoice',
       body: 'Hi Xavier. You will be receiving an invoice for your plan Basic Plan costing 120.50 EUR in 5 days.',
       from: 'crew@mutinerie.org')
+  end
+
+  it 'does not send an email if the member is paid for by another' do
+    stub_request(:get, 'https://mutinerie.cobot.me/api/teams').to_return(body: [
+      {
+        memberships: [
+          {
+            membership: {
+              id: '307401865340875', name: 'Joe Doe'
+            },
+            role: 'paid'
+          },
+        ]
+      }
+    ].to_json)
+    stub_memberships 'space-mutinerie', [
+      {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, id: '307401865340875',
+        next_invoice_at: '2010-10-15', plan: {
+          name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}}]
+
+    Timecop.travel(2010, 10, 10, 12) {
+      InvoiceReminderService.send_reminders
+    }
+
+    expect(inbox_for('joe@doe.com')).to be_empty
   end
 
   it 'bccs the email to the bcc address if one is set' do

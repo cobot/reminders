@@ -36,6 +36,14 @@ class Space
     end
   end
 
+  def teams
+    begin
+      cobot_client.get(subdomain, "/teams")
+    rescue RestClient::ResourceNotFound
+      []
+    end
+  end
+
   def reminders
     Reminder.where(space_id: subdomain)
   end
