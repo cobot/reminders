@@ -19,7 +19,7 @@ RSpec::Matchers.define :include_email do |options|
         match &&= email.subject =~ /#{options[:subject]}/
       end
       if options[:body]
-        match &&= options[:body] == email.body.to_s
+        match &&= email.body.to_s.include?(options[:body])
       end
       if options[:from]
         match &&= [options[:from]] == email.from

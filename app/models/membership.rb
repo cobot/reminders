@@ -11,4 +11,12 @@ class Membership
   def initialize(attribute)
     super attribute
   end
+
+  def current_plan
+    if plan.canceled_to && plan.canceled_to < next_invoice_at
+      upcoming_plan
+    else
+      plan
+    end
+  end
 end

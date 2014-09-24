@@ -1,14 +1,16 @@
 class InvoiceReminderService
   def call(reminder)
     if space = reminder.space
-      memberships = space.memberships.select{|membership| membership.user && membership.next_invoice_at}
+      memberships = space.memberships.select{|membership| membership.next_invoice_at }
       teams = space.teams
       log "Sending reminders to up to #{memberships.size} members for #{space.name}."
-      memberships.each do |membership|
+      memberships.select{|membership| membership.user }.each do |membership|
         if should_send_reminder?(membership, reminder, teams)
           log "Sending reminder to member #{membership.address.name}"
           begin
-            ReminderMailer.invoice_reminder(reminder.space, membership, current_plan(membership), reminder).deliver
+            ReminderMailer.invoice_reminder(reminder.space, membership,
+              reminder,
+              paid_for_memberships(membership, teams, memberships)).deliver
           rescue SimplePostmark::APIError
             # ignore, probably email blocked by postmark because of bounce
           end
@@ -29,8 +31,19 @@ class InvoiceReminderService
 
   private
 
+  def paid_for_memberships(paying_membership, all_teams, all_memberships)
+    team = all_teams.find{|t|
+      t[:memberships].find{|m| m[:role] == 'paying' &&
+        m[:membership][:id] == paying_membership.id}
+    }
+    if team
+      team[:memberships].select{|m| m[:role] == 'paid'}.map{|m|
+        all_memberships.find{|membership| membership.id == m[:membership][:id] } }
+    end
+  end
+
   def should_send_reminder?(membership, reminder, teams)
-    !current_plan(membership).free? &&
+    !membership.current_plan.free? &&
       membership.next_invoice_at == reminder.days_before.days.from_now.to_date &&
       !teams.map{|team| team[:memberships] }.flatten.find{|m|
         m[:role] == 'paid' &&
@@ -51,14 +64,6 @@ class InvoiceReminderService
       RemoteSyslogLogger.new(ENV['SYSLOG_HOST'], ENV['SYSLOG_PORT'], program: "reminders")
     else
       Rails.logger
-    end
-  end
-
-  def current_plan(membership)
-    if membership.plan.canceled_to && membership.plan.canceled_to < membership.next_invoice_at
-      membership.upcoming_plan
-    else
-      membership.plan
     end
   end
 end

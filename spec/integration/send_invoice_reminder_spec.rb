@@ -50,6 +50,49 @@ describe 'sending an invoice reminder' do
     expect(inbox_for('joe@doe.com')).to be_empty
   end
 
+  it 'mentions other members paid for' do
+    @reminder.update_attributes body: @reminder.body +
+      <<-TXT
+        {% if paid_for_members %}
+          {% for m in paid_for_members %}
+            {{m.address.name}}: {{ m.plan.name }}, {{m.plan.price_per_cycle | money}} {{m.plan.currency}}.
+          {% endfor %}
+        {% endif %}
+      TXT
+    stub_request(:get, 'https://mutinerie.cobot.me/api/teams').to_return(body: [
+      {
+        memberships: [
+          {
+            membership: {
+              id: '307401865340875', name: 'Jane Doe'
+            },
+            role: 'paid'
+          },
+          {
+            membership: {
+              id: '307401865340876', name: 'Joe Doe'
+            },
+            role: 'paying'
+          },
+        ]
+      }
+    ].to_json)
+    stub_memberships 'space-mutinerie', [
+      {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, id: '307401865340876',
+        next_invoice_at: '2010-10-15', plan: {
+          name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}},
+      {address: {name: 'Jane'}, id: '307401865340875',
+        next_invoice_at: '2010-10-14', plan: {
+          name: 'Team Plan', price_per_cycle_in_cents: 8000, currency: 'EUR'}}
+    ]
+
+    Timecop.travel(2010, 10, 10, 12) {
+      InvoiceReminderService.send_reminders
+    }
+
+    expect(inbox_for('joe@doe.com')).to include_email(body: 'Jane: Team Plan, 80.00 EUR')
+  end
+
   it 'bccs the email to the bcc address if one is set' do
     @reminder.update_attribute :bcc, 'jane@doe.com'
     stub_memberships 'space-mutinerie', [

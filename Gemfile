@@ -15,11 +15,10 @@ gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'omniauth_cobot', '~>0.0.3'
 gem 'cobot_client'
-
+gem 'simple_postmark'
 gem 'jquery-rails'
 
 group :production do
-  gem 'simple_postmark'
   gem 'lograge'
   gem 'rails_12factor'
   gem 'puma'
