@@ -11,7 +11,7 @@ class Space
   end
 
   def subdomain
-    url.match(%r{https://([^\.]+)\.cobot\.me})[1]
+    url.match(%r{https?://([^\.]+)\.cobot\.me})[1]
   end
 
   def to_param

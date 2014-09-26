@@ -6,6 +6,12 @@ describe Space, '#subdomain' do
 
     expect(space.subdomain).to eql('co-up')
   end
+
+  it 'parses the subdomain from a http url' do
+    space = Space.new({url: 'http://co-up.cobot.me'}, '')
+
+    expect(space.subdomain).to eql('co-up')
+  end
 end
 
 describe Space, '#memberships' do
