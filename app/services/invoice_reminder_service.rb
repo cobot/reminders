@@ -24,7 +24,11 @@ class InvoiceReminderService
     log "Processing #{Reminder.count} reminders"
     Reminder.all.each do |reminder|
       Raven.capture do
-        service.call(reminder)
+        begin
+          service.call(reminder)
+        rescue RestClient::PaymentRequired
+          # space suspended, ignore
+        end
       end
     end
   end
