@@ -1,18 +1,17 @@
 class InvoiceReminderService
   def call(reminder)
     if space = reminder.space
-      memberships = space.memberships.select{|membership| membership.next_invoice_at }
+      memberships = space.memberships.select(&:next_invoice_at)
       teams = space.teams
       log "Sending reminders to up to #{memberships.size} members for #{space.name}."
-      memberships.select{|membership| membership.user }.each do |membership|
+      memberships.select(&:user).each do |membership|
         if should_send_reminder?(membership, reminder, teams)
           log "Sending reminder to member #{membership.address.name}"
           begin
-            ReminderMailer.invoice_reminder(reminder.space, membership,
-              reminder,
+            ReminderMailer.invoice_reminder(reminder.space, membership, reminder,
               paid_for_memberships(membership, teams, memberships)).deliver
-          rescue SimplePostmark::APIError
-            # ignore, probably email blocked by postmark because of bounce
+          rescue SimplePostmark::APIError => e
+            logger.warn "Got postmark error #{e.message} for reminder #{reminder.id}."
           end
         end
       end
@@ -20,15 +19,14 @@ class InvoiceReminderService
   end
 
   def self.send_reminders
-    service = new
     log "Processing #{Reminder.count} reminders"
     Reminder.all.each do |reminder|
-      Raven.capture do
-        begin
-          service.call(reminder)
-        rescue RestClient::PaymentRequired
-          # space suspended, ignore
-        end
+      begin
+        new.call(reminder)
+      rescue RestClient::PaymentRequired
+        log "Space for reminder #{reminder.id} suspended. Ignoring."
+      rescue => e
+        Raven.capture_exception e, extra: {reminder_id: reminder.id}
       end
     end
   end
@@ -36,31 +34,34 @@ class InvoiceReminderService
   private
 
   def paid_for_memberships(paying_membership, all_teams, all_memberships)
-    team = all_teams.find{|t|
-      t[:memberships].find{|m| m[:role] == 'paying' &&
-        m[:membership][:id] == paying_membership.id}
-    }
+    team = all_teams.find do |t|
+      t[:memberships].find do |m|
+        m[:role] == 'paying' &&
+          m[:membership][:id] == paying_membership.id
+      end
+    end
     if team
-      team[:memberships].select{|m| m[:role] == 'paid'}.map{|m|
-        all_memberships.find{|membership| membership.id == m[:membership][:id] } }
+      team[:memberships].select {|m| m[:role] == 'paid' }.map {|m|
+        all_memberships.find {|membership| membership.id == m[:membership][:id] }
+      }
     end
   end
 
   def should_send_reminder?(membership, reminder, teams)
-    (!membership.current_plan.free? || is_paying_for_other_members?(teams, membership)) &&
+    (!membership.current_plan.free? || paying_for_other_members?(teams, membership)) &&
       membership.next_invoice_at == reminder.days_before.days.from_now.to_date &&
-      !is_paid_for_by_other_member?(teams, membership)
+      !paid_for_by_other_member?(teams, membership)
   end
 
-  def is_paid_for_by_other_member?(teams, membership)
-    teams.map{|team| team[:memberships] }.flatten.find{|m|
+  def paid_for_by_other_member?(teams, membership)
+    teams.map{|team| team[:memberships] }.flatten.find {|m|
       m[:role] == 'paid' &&
       m[:membership][:id] == membership.id
     }
   end
 
-  def is_paying_for_other_members?(teams, membership)
-    teams.map{|team| team[:memberships] }.flatten.find{|m|
+  def paying_for_other_members?(teams, membership)
+    teams.map {|team| team[:memberships] }.flatten.find {|m|
       m[:role] == 'paying' &&
       m[:membership][:id] == membership.id
     }
@@ -70,13 +71,18 @@ class InvoiceReminderService
     self.class.log(message)
   end
 
+  def logger
+    self.class.logger
+  end
+
   def self.log(message)
     logger.info message
   end
 
   def self.logger
-    @logger ||=  if ENV['SYSLOG_HOST']
-      RemoteSyslogLogger.new(ENV['SYSLOG_HOST'], ENV['SYSLOG_PORT'], program: "reminders")
+    @logger ||= \
+    if ENV['SYSLOG_HOST']
+      RemoteSyslogLogger.new(ENV['SYSLOG_HOST'], ENV['SYSLOG_PORT'], program: 'reminders')
     else
       Rails.logger
     end
