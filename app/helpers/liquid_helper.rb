@@ -8,7 +8,7 @@ module LiquidHelper
   def render_liquid(membership, reminder, paid_for_memberships = nil)
     context = Liquid::Context.new(
       'plan' => LiquidModelDecorator.new(membership.current_plan),
-      'member' => LiquidMembershipDecorator.new(membership),
+      'member' => LiquidModelDecorator.new(membership),
       'paid_for_members' => paid_for_memberships && paid_for_memberships.map{|m|
         LiquidMembershipDecorator.new(m) },
       'days' => reminder.days_before)

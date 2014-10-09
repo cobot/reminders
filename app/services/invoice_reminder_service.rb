@@ -26,7 +26,11 @@ class InvoiceReminderService
       rescue RestClient::PaymentRequired
         log "Space for reminder #{reminder.id} suspended. Ignoring."
       rescue => e
-        Raven.capture_exception e, extra: {reminder_id: reminder.id}
+        if Rails.env.production?
+          Raven.capture_exception e, extra: {reminder_id: reminder.id}
+        else
+          raise e
+        end
       end
     end
   end

@@ -6,7 +6,11 @@ Hi {{member.address.name}},
 this is just a reminder that you will be receiving an invoice from us in {{days}} days.
 
 You current plan: {{ plan.name }}
-Price: {{plan.price_per_cycle | money}} {{plan.currency}}.
+{% if plan.extras %}
+Extras: {% for extra in plan.extras %}
+{{extra.name}}: {{extra.price | money }} {{plan.currency}}
+{% endfor %}{% endif %}
+Price: {{plan.price_per_cycle_without_extras | money}} {{plan.currency}}.
 
 {% if paid_for_members %}
 In addition you are paying for these members:
