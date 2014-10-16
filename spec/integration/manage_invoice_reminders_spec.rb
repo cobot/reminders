@@ -17,6 +17,24 @@ describe 'settings up an invoice reminder' do
     expect(page).to have_content('invoice coming')
   end
 
+  it 'shows an error when posting invalid markup' do
+    fill_in 'Email subject', with: 'invoice coming'
+    fill_in 'Email body', with: 'price: {{ plan.price_per_cycle }'
+    fill_in 'Days before', with: '4'
+    click_button 'Set Reminder'
+
+    expect(page).to have_content('properly terminated')
+  end
+
+  it 'shows an error when previewing invalid markup' do
+    fill_in 'Email subject', with: 'invoice coming'
+    fill_in 'Email body', with: 'price: {{ plan.price_per_cycle }'
+    fill_in 'Days before', with: '4'
+    click_button 'Preview'
+
+    expect(page).to have_content('properly terminated')
+  end
+
   it 'lets me preview the email body' do
     fill_in 'Email subject', with: 'invoice coming'
     fill_in 'Email body', with: 'plan: {{plan.name}}, price: {{plan.price_per_cycle | money}} {{plan.currency}}'

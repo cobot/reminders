@@ -21,8 +21,12 @@ class RemindersController < ApplicationController
     @reminder = space.reminders.build params[:reminder]
     @reminder.access_token = current_user.access_token
     if params[:commit] == 'Preview'
-      @action = 'new'
-      render 'preview'
+      if @reminder.valid?
+        @action = 'new'
+        render 'preview'
+      else
+        render 'new'
+      end
     else
       if @reminder.save
         redirect_to space_reminders_path(space)
