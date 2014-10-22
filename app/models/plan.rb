@@ -18,4 +18,8 @@ class Plan
   def free?
     price_per_cycle == 0
   end
+
+  def attributes
+    super.merge(has_extras: !extras.empty?)
+  end
 end

@@ -6,7 +6,7 @@ Hi {{member.address.name}},
 this is just a reminder that you will be receiving an invoice from us in {{days}} days.
 
 You current plan: {{ plan.name }}
-{% if plan.extras %}
+{% if plan.has_extras %}
 Extras: {% for extra in plan.extras %}
 {{extra.name}}: {{extra.price | money }} {{plan.currency}}
 {% endfor %}{% endif %}
