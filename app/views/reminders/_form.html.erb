@@ -1,3 +1,5 @@
+<%= f.input :from_email, label: 'Sender Email', input_html: {type: 'email'},
+  hint: "Address from which the reminder to send. Leave blank for space's default address." %>
 <%= f.input :subject, label: 'Email subject' %>
 <%= f.input :bcc, label: 'Bcc', hint: "Send a copy of each email to this address" %>
 <%= f.input :body, label: 'Email body',

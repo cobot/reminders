@@ -10,7 +10,7 @@ class RemindersController < ApplicationController
   end
 
   def new
-    @reminder = Reminder.new
+    @reminder = Reminder.new from_email: space.email
   end
 
   def edit

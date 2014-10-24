@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe 'sending an invoice reminder' do
   before(:each) do
-    @reminder = Reminder.create! subject: 'Incoming invoice',
+    @reminder = Reminder.create! from_email: 'jane@doe.com',
+      subject: 'Incoming invoice',
       body: <<-TXT,
         Hi {{ member.address.name }}. You will be receiving an invoice for your
         plan {{ plan.name }} costing
@@ -33,7 +34,7 @@ describe 'sending an invoice reminder' do
         100.50 EUR in 5 days.
         Extras: Locker: 20.00 EUR
       TXT
-      from: 'crew@mutinerie.org')
+      from: 'jane@doe.com')
   end
 
   it 'does not send an email if the member is paid for by another' do

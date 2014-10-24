@@ -1,5 +1,5 @@
 class Reminder < ActiveRecord::Base
-  attr_accessible :subject, :body, :days_before, :bcc
+  attr_accessible :subject, :body, :days_before, :bcc, :from_email
 
   validates_presence_of :subject, :body
   validates :days_before, numericality: {greater_than_or_equal_to: 1}

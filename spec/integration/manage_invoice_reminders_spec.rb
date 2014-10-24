@@ -8,6 +8,7 @@ describe 'settings up an invoice reminder' do
   end
 
   it 'saves the reminder' do
+    fill_in 'Sender Email', with: 'jane@doe.com'
     fill_in 'Email subject', with: 'invoice coming'
     fill_in 'Email body', with: 'price: {{ price }}'
     fill_in 'Days before', with: '4'
