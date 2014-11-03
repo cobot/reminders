@@ -7,7 +7,7 @@ describe 'sending an invoice reminder' do
       body: <<-TXT,
         Hi {{ member.address.name }}. You will be receiving an invoice for your
         plan {{ plan.name }} costing
-        {{plan.price_per_cycle_without_extras | money}} {{plan.currency}} in {{days}} days.
+        {{plan.price_per_cycle | money}} {{plan.currency}} in {{days}} days.
         Extras: {% for extra in plan.extras %} {{extra.name}}: {{extra.price | money}} {{plan.currency}} {% endfor %}
       TXT
       days_before: 5 do |r|
@@ -20,7 +20,7 @@ describe 'sending an invoice reminder' do
   it 'sends an email to each member' do
     stub_memberships 'space-mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, next_invoice_at: '2010-10-15', plan: {
-        name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR',
+        name: 'Basic Plan', price_per_cycle_in_cents: 10050, currency: 'EUR',
         extras: [{name: 'Locker', price_in_cents: 2000}]}}]
 
     Timecop.travel(2010, 10, 10, 12) {
