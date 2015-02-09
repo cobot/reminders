@@ -76,6 +76,16 @@ describe 'editing an invoice reminder' do
 
     expect(page).to have_content('plan: Full Time')
   end
+
+  it 'shows an error when previewing invalid markup' do
+    visit space_reminders_path('mutinerie')
+    click_link 'Edit'
+
+    fill_in 'Email body', with: 'price: {{ plan.price_per_cycle }'
+    click_button 'Preview'
+
+    expect(page).to have_content('properly terminated')
+  end
 end
 
 describe 'deleting an invoice reminder' do

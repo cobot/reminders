@@ -21,12 +21,7 @@ class RemindersController < ApplicationController
     @reminder = space.reminders.build params[:reminder]
     @reminder.access_token = current_user.access_token
     if params[:commit] == 'Preview'
-      if @reminder.valid?
-        @action = 'new'
-        render 'preview'
-      else
-        render 'new'
-      end
+      preview @reminder, 'new'
     else
       if @reminder.save
         redirect_to space_reminders_path(space)
@@ -40,8 +35,7 @@ class RemindersController < ApplicationController
     @reminder = space.reminders.find params[:id]
     @reminder.attributes = params[:reminder]
     if params[:commit] == 'Preview'
-      @action = 'edit'
-      render 'preview'
+      preview @reminder, 'edit'
     else
       if @reminder.save
         redirect_to space_reminders_path(space), notice: 'Reminder changed.'
@@ -58,6 +52,15 @@ class RemindersController < ApplicationController
   end
 
   private
+
+  def preview(reminder, action)
+    if reminder.valid?
+      @action = action
+      render 'preview'
+    else
+      render action
+    end
+  end
 
   def space
     @space ||= current_user.spaces.find{|space| space.to_param == params[:space_id]}
