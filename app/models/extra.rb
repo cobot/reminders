@@ -1,5 +1,5 @@
 class Extra
-  include Virtus::ValueObject
+  include Virtus.model
 
   attribute :name, String
   attribute :price_in_cents, Fixnum

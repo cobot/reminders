@@ -1,5 +1,5 @@
 class Membership
-  include Virtus
+  include Virtus.model
 
   attribute :id, String
   attribute :user, CobotUser

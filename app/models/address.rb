@@ -1,5 +1,5 @@
 class Address
-  include Virtus::ValueObject
+  include Virtus.model
 
   attribute :name, String
   attribute :company, String

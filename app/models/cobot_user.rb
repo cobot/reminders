@@ -1,5 +1,5 @@
 class CobotUser
-  include Virtus::ValueObject
+  include Virtus.model
 
   attribute :email, String
 end

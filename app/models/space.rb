@@ -1,5 +1,5 @@
 class Space
-  include Virtus
+  include Virtus.model
 
   attribute :url
   attribute :name
