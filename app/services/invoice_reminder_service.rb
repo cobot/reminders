@@ -3,16 +3,15 @@ class InvoiceReminderService
     if space = reminder.space
       memberships = space.memberships.select(&:next_invoice_at)
       teams = space.teams
-      log "Sending reminders to up to #{memberships.size} members for #{space.name}."
-      memberships.select(&:user).each do |membership|
-        if should_send_reminder?(membership, reminder, teams)
-          log "Sending reminder to member #{membership.address.name}"
-          begin
-            ReminderMailer.invoice_reminder(reminder.space, membership, reminder,
-              paid_for_memberships(membership, teams, memberships)).deliver
-          rescue SimplePostmark::APIError => e
-            logger.warn "Got postmark error #{e.message} for reminder #{reminder.id}."
-          end
+      log "#{space.subdomain}: sending reminders to #{memberships.size} members."
+      m = memberships.select {|m| m.user && should_send_reminder?(m, reminder, teams) }
+      m.each do |membership|
+        log "#{space.subdomain}: sending reminder to member #{membership.address.name} (#{membership.id})"
+        begin
+          ReminderMailer.invoice_reminder(reminder.space, membership, reminder,
+            paid_for_memberships(membership, teams, memberships)).deliver
+        rescue SimplePostmark::APIError => e
+          logger.warn "#{space.subdomain}:  got postmark error #{e.message} for reminder #{reminder.id}."
         end
       end
     end
