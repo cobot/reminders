@@ -84,11 +84,6 @@ class InvoiceReminderService
   end
 
   def self.logger
-    @logger ||= \
-    if ENV['SYSLOG_HOST']
-      RemoteSyslogLogger.new(ENV['SYSLOG_HOST'], ENV['SYSLOG_PORT'], program: 'reminders')
-    else
-      Rails.logger
-    end
+    Rails.logger
   end
 end
