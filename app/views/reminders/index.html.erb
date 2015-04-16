@@ -5,7 +5,7 @@
 
 <ul class="unstyled">
   <% @reminders.each do |reminder| %>
-    <li>
+    <li class="<%= 'inactive' if !reminder.active? %>">
       <h3>
         <div style="float: right">
           <%= link_to 'Edit', edit_space_reminder_path(space, reminder), class: 'btn' %>
@@ -14,6 +14,9 @@
         <%= reminder.subject %>
         <small>(<%= pluralize reminder.days_before, 'day before', 'days before' %>)</small>
       </h3>
+      <% if !reminder.active? %>
+        Reminder has been deactivated due to an error. Plesae contact support.
+      <% end %>
     </li>
   <% end %>
 </ul>

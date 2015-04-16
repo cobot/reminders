@@ -12,3 +12,8 @@
  *= require bootstrap
  *= require_tree .
  */
+
+.inactive h3 {
+  text-decoration: line-through;
+  color: #999;
+}

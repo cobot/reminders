@@ -3,8 +3,9 @@ class InvoiceReminderService
     if space = reminder.space
       memberships = space.memberships.select(&:next_invoice_at)
       teams = space.teams
-      log "#{space.subdomain}: sending reminders to #{memberships.size} members."
+
       m = memberships.select {|m| m.user && should_send_reminder?(m, reminder, teams) }
+      log "#{space.subdomain}: sending reminders to #{m.size} members."
       m.each do |membership|
         log "#{space.subdomain}: sending reminder to member #{membership.address.name} (#{membership.id})"
         begin
@@ -19,11 +20,13 @@ class InvoiceReminderService
 
   def self.send_reminders
     log "Processing #{Reminder.count} reminders"
-    Reminder.all.each do |reminder|
+    Reminder.active.each do |reminder|
       begin
         new.call(reminder)
       rescue RestClient::PaymentRequired
-        log "Space for reminder #{reminder.id} suspended. Ignoring."
+        log "Space #{reminder.space_id} for reminder #{reminder.id} suspended. Ignoring."
+      rescue RestClient::Forbidden
+        reminder.deactivate '403 forbidden'
       rescue => e
         if Rails.env.production?
           Raven.capture_exception e, extra: {reminder_id: reminder.id}

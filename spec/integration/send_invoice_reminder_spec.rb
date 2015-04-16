@@ -11,14 +11,14 @@ describe 'sending an invoice reminder' do
         Extras: {% for extra in plan.extras %} {{extra.name}}: {{extra.price | money}} {{plan.currency}} {% endfor %}
       TXT
       days_before: 5 do |r|
-        r.space_id = 'space-mutinerie'
+        r.space_id = 'mutinerie'
     end
-    stub_space 'space-mutinerie', email: 'crew@mutinerie.org'
+    stub_space 'mutinerie', email: 'crew@mutinerie.org'
     stub_request(:get, 'https://mutinerie.cobot.me/api/teams').to_return(body: [].to_json)
   end
 
   it 'sends an email to each member' do
-    stub_memberships 'space-mutinerie', [
+    stub_memberships 'mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, next_invoice_at: '2010-10-15', plan: {
         name: 'Basic Plan', price_per_cycle_in_cents: 10050, currency: 'EUR',
         extras: [{name: 'Locker', price_in_cents: 2000}]}}]
@@ -50,7 +50,7 @@ describe 'sending an invoice reminder' do
         ]
       }
     ].to_json)
-    stub_memberships 'space-mutinerie', [
+    stub_memberships 'mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, id: '307401865340875',
         next_invoice_at: '2010-10-15', plan: {
           name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}}]
@@ -89,7 +89,7 @@ describe 'sending an invoice reminder' do
         ]
       }
     ].to_json)
-    stub_memberships 'space-mutinerie', [
+    stub_memberships 'mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, id: '307401865340876',
         next_invoice_at: '2010-10-15', plan: {
           name: 'Basic Plan', price_per_cycle_in_cents: 0, currency: 'EUR'}},
@@ -107,7 +107,7 @@ describe 'sending an invoice reminder' do
 
   it 'bccs the email to the bcc address if one is set' do
     @reminder.update_attribute :bcc, 'jane@doe.com'
-    stub_memberships 'space-mutinerie', [
+    stub_memberships 'mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, next_invoice_at: '2010-10-15', plan: {
         name: 'Basic Plan', price_per_cycle_in_cents: 12050, currency: 'EUR'}}]
 
@@ -120,7 +120,7 @@ describe 'sending an invoice reminder' do
   end
 
   it 'uses the upcoming plan if the current plan has been canceled to before the next invoice date' do
-    stub_memberships 'space-mutinerie', [
+    stub_memberships 'mutinerie', [
       {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, next_invoice_at: '2010-10-15',
         plan: {canceled_to: '2010-10-14'},
         upcoming_plan: {name: 'New Plan', price_per_cycle_in_cents: 10000, currency: 'EUR'}}]
@@ -135,10 +135,24 @@ describe 'sending an invoice reminder' do
 
   it 'skips a deleted space' do
     Raven.stub(:capture).and_yield
-    WebMock.stub_request(:get, %r{spaces/space-mutinerie}).to_return(status: 404)
+    WebMock.stub_request(:get, %r{spaces/mutinerie}).to_return(status: 404)
 
     expect {
       InvoiceReminderService.send_reminders
     }.to_not raise_error
+  end
+
+  it 'deactivates a reminder when getting a 403 response from cobot' do
+    WebMock.stub_request(:get, %r{spaces/mutinerie}).to_return(status: 403)
+
+    expect {
+      InvoiceReminderService.send_reminders
+    }.to_not raise_error
+
+    stub_user spaces: ['mutinerie']
+    visit root_path
+    click_link 'Sign in'
+    # save_and_open_page
+    expect(page).to have_css('.inactive')
   end
 end
