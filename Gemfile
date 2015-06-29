@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.2.2'
 
-gem 'rails', '~>3.2.19'
+gem 'rails', '~>3.2.22'
 gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
@@ -33,6 +33,7 @@ group :development do
 end
 
 group :test do
+  gem 'test-unit'
   gem 'capybara'
   gem 'webmock', require: 'webmock/rspec'
   gem 'launchy'
