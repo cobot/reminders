@@ -10,12 +10,12 @@ You current plan: {{ plan.name }}
 Extras: {% for extra in plan.extras %}
 {{extra.name}}: {{extra.price | money }} {{plan.currency}}
 {% endfor %}{% endif %}
-Price: {{plan.price_per_cycle | money}} {{plan.currency}}.
+Price: {{plan.price | money}} {{plan.currency}}.
 
 {% if paid_for_members %}
 In addition you are paying for these members:
 {% for m in paid_for_members %}
-{{m.address.name}}: {{ m.plan.name }}, {{m.plan.price_per_cycle | money}} {{m.plan.currency}}
+{{m.address.name}}: {{ m.plan.name }}, {{m.plan.price | money}} {{m.plan.currency}}
 {% endfor %}
 {% endif %}
 

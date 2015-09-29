@@ -7,7 +7,7 @@ describe 'sending an invoice reminder' do
       body: <<-TXT,
         Hi {{ member.address.name }}. You will be receiving an invoice for your
         plan {{ plan.name }} costing
-        {{plan.price_per_cycle | money}} {{plan.currency}} in {{days}} days.
+        {{plan.price | money}} {{plan.currency}} in {{days}} days.
         Extras: {% for extra in plan.extras %} {{extra.name}}: {{extra.price | money}} {{plan.currency}} {% endfor %}
       TXT
       days_before: 5 do |r|
@@ -19,9 +19,9 @@ describe 'sending an invoice reminder' do
 
   it 'sends an email to each member' do
     stub_memberships 'mutinerie', [
-      {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, next_invoice_at: '2010-10-15', plan: {
-        name: 'Basic Plan', price_per_cycle_in_cents: 10050, currency: 'EUR',
-        extras: [{name: 'Locker', price_in_cents: 2000}]}}]
+      {user: {email: 'joe@doe.com'}, address: {name: 'Xavier'}, charge_taxes: true, next_invoice_at: '2010-10-15', plan: {
+        name: 'Basic Plan', price_per_cycle_in_cents: 10050, tax_rate: "10.00", currency: 'EUR',
+        extras: [{name: 'Locker', price_in_cents: 2000, tax_rate: "20"}]}}]
 
     Timecop.travel(2010, 10, 10, 12) {
       InvoiceReminderService.send_reminders
@@ -31,8 +31,8 @@ describe 'sending an invoice reminder' do
       body: <<-TXT.gsub(/\s+/, ' '),
         Hi Xavier.
         You will be receiving an invoice for your plan Basic Plan costing
-        100.50 EUR in 5 days.
-        Extras: Locker: 20.00 EUR
+        110.55 EUR in 5 days.
+        Extras: Locker: 24.00 EUR
       TXT
       from: 'jane@doe.com')
   end
@@ -62,7 +62,7 @@ describe 'sending an invoice reminder' do
     expect(inbox_for('joe@doe.com')).to be_empty
   end
 
-  it 'mentions other members paid for' do
+  it 'mentions other members paid for with old template that uses price_per_cycle' do
     @reminder.update_attributes body: @reminder.body +
       <<-TXT
         {% if paid_for_members %}

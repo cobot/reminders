@@ -20,7 +20,7 @@ describe 'settings up an invoice reminder' do
 
   it 'shows an error when posting invalid markup' do
     fill_in 'Email subject', with: 'invoice coming'
-    fill_in 'Email body', with: 'price: {{ plan.price_per_cycle }'
+    fill_in 'Email body', with: 'price: {{ plan.price }'
     fill_in 'Days before', with: '4'
     click_button 'Set Reminder'
 
@@ -29,7 +29,7 @@ describe 'settings up an invoice reminder' do
 
   it 'shows an error when previewing invalid markup' do
     fill_in 'Email subject', with: 'invoice coming'
-    fill_in 'Email body', with: 'price: {{ plan.price_per_cycle }'
+    fill_in 'Email body', with: 'price: {{ plan.price }'
     fill_in 'Days before', with: '4'
     click_button 'Preview'
 
@@ -38,7 +38,7 @@ describe 'settings up an invoice reminder' do
 
   it 'lets me preview the email body' do
     fill_in 'Email subject', with: 'invoice coming'
-    fill_in 'Email body', with: 'plan: {{plan.name}}, price: {{plan.price_per_cycle | money}} {{plan.currency}}'
+    fill_in 'Email body', with: 'plan: {{plan.name}}, price: {{plan.price | money}} {{plan.currency}}'
     fill_in 'Days before', with: '4'
     click_button 'Preview'
 
@@ -81,7 +81,7 @@ describe 'editing an invoice reminder' do
     visit space_reminders_path('mutinerie')
     click_link 'Edit'
 
-    fill_in 'Email body', with: 'price: {{ plan.price_per_cycle }'
+    fill_in 'Email body', with: 'price: {{ plan.price }'
     click_button 'Preview'
 
     expect(page).to have_content('properly terminated')

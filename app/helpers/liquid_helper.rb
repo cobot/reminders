@@ -1,7 +1,7 @@
 module LiquidHelper
   module MoneyFilter
     def money(input)
-      sprintf('%.2f', input.to_f)
+      sprintf('%.2f', input.to_f.round(2))
     end
   end
 

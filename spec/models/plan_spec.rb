@@ -12,4 +12,22 @@ describe Plan, '#attributes' do
 
     expect(plan.attributes[:has_extras]).to be_false
   end
+
+  it 'it applies tax if charge taxes is true' do
+    plan = Plan.new(price_per_cycle_in_cents: 12000, tax_rate: 10, charge_taxes: true)
+
+    expect(plan.price).to eq(132)
+  end
+
+  it 'it does not apply tax if charge taxes is false' do
+    plan = Plan.new(price_per_cycle_in_cents: 12000, tax_rate: 10, charge_taxes: nil)
+
+    expect(plan.price).to eq(120)
+  end
+
+  it 'it does not apply tax if charge taxes is not set' do
+    plan = Plan.new(price_per_cycle_in_cents: 12000)
+
+    expect(plan.price).to eq(120)
+  end
 end

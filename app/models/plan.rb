@@ -1,20 +1,32 @@
 class Plan
   include Virtus.model
+  include Pricable
 
   attribute :name, String
   attribute :price_per_cycle_in_cents, Fixnum
-  attribute :price_per_cycle, BigDecimal
+  attribute :price, BigDecimal
   attribute :currency, String
   attribute :canceled_to, Date
   attribute :extras, [Extra], default: []
+  attribute :tax_rate, BigDecimal
+  attribute :charge_taxes, Boolean
 
-  def initialize(*args)
-    super
-    self.price_per_cycle = BigDecimal.new(price_per_cycle_in_cents.to_s) / 100.0
+  # Backwards compability with api still using price_per_cycle_in_cents
+  alias_method :price_in_cents, :price_per_cycle_in_cents
+
+  # Backwards compability with old templates that use price_per_cycle instead of price
+  attribute :price_per_cycle, BigDecimal
+  def price_per_cycle
+    price
+  end
+
+  def initialize(attributes)
+    attributes[:extras].each{|extra| extra[:charge_taxes] = attributes[:charge_taxes]} if attributes[:extras]
+    super attributes
   end
 
   def free?
-    price_per_cycle == 0
+    price == 0
   end
 
   def attributes
