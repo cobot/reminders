@@ -7,9 +7,12 @@ class Membership
   attribute :upcoming_plan, Plan
   attribute :address, Address
   attribute :next_invoice_at, Date
+  attribute :charge_taxes, Boolean
 
-  def initialize(attribute)
-    super attribute
+  def initialize(attributes)
+    attributes[:plan][:charge_taxes] = attributes[:charge_taxes]
+    attributes[:upcoming_plan][:charge_taxes] = attributes[:charge_taxes] if attributes[:upcoming_plan]
+    super attributes
   end
 
   def current_plan

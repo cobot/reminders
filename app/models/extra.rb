@@ -1,13 +1,15 @@
 class Extra
   include Virtus.model
+  include Pricable
 
   attribute :name, String
   attribute :price_in_cents, Fixnum
   attribute :price, BigDecimal
+  attribute :tax_rate, BigDecimal
+  attribute :charge_taxes, Boolean
 
   def initialize(*args)
     super
-    self.price = BigDecimal.new(price_in_cents.to_s) / 100.0
   end
 
   def to_liquid
