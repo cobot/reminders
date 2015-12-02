@@ -16,6 +16,7 @@ gem 'omniauth_cobot', '~>0.0.3'
 gem 'cobot_client'
 gem 'simple_postmark'
 gem 'jquery-rails'
+gem 'test-unit'
 
 group :production do
   gem 'lograge'
@@ -33,7 +34,6 @@ group :development do
 end
 
 group :test do
-  gem 'test-unit'
   gem 'capybara'
   gem 'webmock', require: 'webmock/rspec'
   gem 'launchy'
