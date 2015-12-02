@@ -17,6 +17,7 @@ gem 'cobot_client'
 gem 'simple_postmark'
 gem 'jquery-rails'
 gem 'test-unit'
+gem 'librato-metrics'
 
 group :production do
   gem 'lograge'

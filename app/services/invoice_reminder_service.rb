@@ -6,6 +6,7 @@ class InvoiceReminderService
 
       m = memberships.select {|m| m.user && should_send_reminder?(m, reminder, teams) }
       log "#{space.subdomain}: sending reminders to #{m.size} members."
+      Librato::Metrics.submit 'reminders.processing.count' => {type: :counter, value: m.size, source: 'reminders.worker'} if Librato::Metrics.client.email
       m.each do |membership|
         log "#{space.subdomain}: sending reminder to member #{membership.address.name} (#{membership.id})"
         begin
