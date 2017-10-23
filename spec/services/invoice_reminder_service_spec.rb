@@ -50,4 +50,17 @@ describe InvoiceReminderService, '#call' do
 
     service.call reminder
   end
+
+  it 'removes canceled members from teams' do
+    membership.stub(:id) { 'mem-1' }
+    canceled_membership = stub(:canceled_membership, id: 'mem-2', next_invoice_at: nil)
+    space.stub(:memberships) { [membership, canceled_membership] }
+    team = {memberships: [{role: 'paying', membership: {id: 'mem-1'}},
+                          {role: 'paid', membership: {id: 'mem-2'}}]}
+    space.stub(:teams) { [team] }
+
+    ReminderMailer.should_receive(:invoice_reminder).with(space, membership, reminder, nil)
+
+    service.call reminder
+  end
 end

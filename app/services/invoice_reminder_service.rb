@@ -47,11 +47,11 @@ class InvoiceReminderService
           m[:membership][:id] == paying_membership.id
       end
     end
-    if team
-      team[:memberships].select {|m| m[:role] == 'paid' }.map {|m|
-        all_memberships.find {|membership| membership.id == m[:membership][:id] }
-      }
-    end
+    return unless team
+    memberships = team[:memberships].select {|m| m[:role] == 'paid' }.map {|m|
+      all_memberships.find {|membership| membership.id == m[:membership][:id] }
+    }.compact
+    memberships unless memberships.empty?
   end
 
   def should_send_reminder?(membership, reminder, teams)
