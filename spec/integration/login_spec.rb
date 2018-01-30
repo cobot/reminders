@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'logging in' do
+describe 'logging in', type: :feature do
   it 'show me my reminders' do
     stub_user id: '1', spaces: ['mutinerie']
     User.create! do |user|
@@ -12,7 +12,7 @@ describe 'logging in' do
     }
 
     visit root_path
-    click_link 'Sign in'
+    click_link 'Sign in', match: :first
 
     expect(page).to have_content('invoice coming')
   end

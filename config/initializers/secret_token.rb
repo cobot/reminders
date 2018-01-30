@@ -5,3 +5,4 @@
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
 Reminders::Application.config.secret_token = (ENV['SECRET_TOKEN'] || raise("no secret token set"))
+Reminders::Application.config.secret_key_base = (ENV['SECRET_KEY_BASE'] || raise("no secret key base set"))

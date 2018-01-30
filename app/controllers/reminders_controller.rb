@@ -18,7 +18,7 @@ class RemindersController < ApplicationController
   end
 
   def create
-    @reminder = space.reminders.build params[:reminder]
+    @reminder = space.reminders.build reminder_params
     @reminder.access_token = current_user.access_token
     if params[:commit] == 'Preview'
       preview @reminder, 'new'
@@ -33,7 +33,7 @@ class RemindersController < ApplicationController
 
   def update
     @reminder = space.reminders.find params[:id]
-    @reminder.attributes = params[:reminder]
+    @reminder.attributes = reminder_params
     if params[:commit] == 'Preview'
       preview @reminder, 'edit'
     else
@@ -52,6 +52,10 @@ class RemindersController < ApplicationController
   end
 
   private
+
+  def reminder_params
+    params[:reminder].permit(:subject, :body, :days_before, :bcc, :from_email)
+  end
 
   def preview(reminder, action)
     if reminder.valid?

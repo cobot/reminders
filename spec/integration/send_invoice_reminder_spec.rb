@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'sending an invoice reminder' do
+describe 'sending an invoice reminder', type: :feature do
   before(:each) do
     @reminder = Reminder.create! from_email: 'jane@doe.com',
       subject: 'Incoming invoice',
@@ -134,7 +134,7 @@ describe 'sending an invoice reminder' do
   end
 
   it 'skips a deleted space' do
-    Raven.stub(:capture).and_yield
+    allow(Raven).to receive(:capture).and_yield
     WebMock.stub_request(:get, %r{spaces/mutinerie}).to_return(status: 404)
 
     expect {
@@ -151,7 +151,7 @@ describe 'sending an invoice reminder' do
 
     stub_user spaces: ['mutinerie']
     visit root_path
-    click_link 'Sign in'
+    click_link 'Sign in', match: :first
     # save_and_open_page
     expect(page).to have_css('.inactive')
   end

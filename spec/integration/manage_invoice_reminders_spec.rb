@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe 'settings up an invoice reminder' do
+describe 'settings up an invoice reminder', type: :feature do
   before(:each) do
     stub_user spaces: ['mutinerie']
     visit root_path
-    click_link 'Sign in'
+    click_link 'Sign in', match: :first
   end
 
   it 'saves the reminder' do
@@ -46,14 +46,12 @@ describe 'settings up an invoice reminder' do
   end
 end
 
-describe 'editing an invoice reminder' do
+describe 'editing an invoice reminder', type: :feature do
   before(:each) do
     stub_user spaces: ['mutinerie']
     visit root_path
-    click_link 'Sign in'
-    Reminder.create!(subject: 'invoice coming', body: '-', days_before: 1) {|reminder|
-      reminder.space_id = 'mutinerie'
-    }
+    click_link 'Sign in', match: :first
+    Reminder.create!(subject: 'invoice coming', body: '-', days_before: 1, space_id: 'mutinerie')
   end
 
   it 'changes the reminder' do
@@ -88,11 +86,11 @@ describe 'editing an invoice reminder' do
   end
 end
 
-describe 'deleting an invoice reminder' do
+describe 'deleting an invoice reminder', type: :feature do
   before(:each) do
     stub_user spaces: ['mutinerie']
     visit root_path
-    click_link 'Sign in'
+    click_link 'Sign in', match: :first
     Reminder.create!(subject: 'invoice coming', body: '-', days_before: 1) {|reminder|
       reminder.space_id = 'mutinerie'
     }

@@ -9,7 +9,7 @@ describe User, '#spaces' do
       ]
     end
 
-    Space.should_receive(:new).with({url: 'https://some-space.cobot.me'}, '123')
+    expect(Space).to receive(:new).with({url: 'https://some-space.cobot.me'}, '123')
 
     user.spaces
   end

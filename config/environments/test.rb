@@ -1,6 +1,8 @@
 Reminders::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.eager_load = false
+
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
@@ -29,9 +31,6 @@ Reminders::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
-
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end
@@ -39,3 +38,4 @@ end
 Reminders::Config = OpenStruct.new(app_id: '123', app_secret: '456', app_site: 'https://www.cobot.me')
 
 ENV['SECRET_TOKEN'] = '123' * 10
+ENV['SECRET_KEY_BASE'] = '124' * 10

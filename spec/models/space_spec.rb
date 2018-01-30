@@ -17,8 +17,8 @@ end
 describe Space, '#memberships' do
   it 'returns an empty array if the api call returns 404' do
     client = double(:client)
-    CobotClient::ApiClient.stub(new: client)
-    client.stub(:get).and_raise(RestClient::ResourceNotFound)
+    allow(CobotClient::ApiClient).to receive_messages(new: client)
+    allow(client).to receive(:get).and_raise(RestClient::ResourceNotFound)
 
     expect(Space.new({url: 'https://co-up.cobot.me'}, '').memberships).to eql([])
   end
