@@ -11,7 +11,7 @@ class InvoiceReminderService
         log "#{space.subdomain}: sending reminder to member #{membership.address.name} (#{membership.id})"
         begin
           ReminderMailer.invoice_reminder(reminder.space, membership, reminder,
-            paid_for_memberships(membership, teams, memberships)).deliver
+            paid_for_memberships(membership, teams, memberships)).deliver_now
         rescue SimplePostmark::APIError => e
           logger.warn "#{space.subdomain}:  got postmark error #{e.message} for reminder #{reminder.id}."
         end

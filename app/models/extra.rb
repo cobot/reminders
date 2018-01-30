@@ -3,7 +3,7 @@ class Extra
   include Pricable
 
   attribute :name, String
-  attribute :price_in_cents, Fixnum
+  attribute :price_in_cents, Integer
   attribute :price, BigDecimal
   attribute :tax_rate, BigDecimal
   attribute :charge_taxes, Boolean

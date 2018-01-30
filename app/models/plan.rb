@@ -3,7 +3,7 @@ class Plan
   include Pricable
 
   attribute :name, String
-  attribute :price_per_cycle_in_cents, Fixnum
+  attribute :price_per_cycle_in_cents, Integer
   attribute :price, BigDecimal
   attribute :currency, String
   attribute :canceled_to, Date
