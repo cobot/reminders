@@ -7,6 +7,8 @@ The official installation runs under <http://reminders.apps.cobot.me>
 ## Setup
 
 * Rails/Postgres
+
+* run `rake db:create:all` and `rake db:migrate`
 * mail server/service
 * a cron job must run `rake send_emails` every day to send out the emails
 * for OAuth to work an application must be registered on Cobot and the app id and secret must be set via the COBOT_APP_ID/COBOT_APP_SECRET environment variables
