@@ -18,9 +18,11 @@ gem 'simple_postmark'
 gem 'jquery-rails'
 gem 'test-unit'
 gem 'librato-metrics'
-gem 'sass-rails'
+gem 'sass-rails', '~>5.0.7'
+gem 'font-awesome-sass', git: 'https://github.com/langalex/font-awesome-sass'
 gem 'uglifier', '>= 1.0.3'
 gem 'rspec-rails', groups: [:test, :development]
+gem 'cobot_assets', '~>17.9.0'
 
 group :production do
   gem 'lograge'
