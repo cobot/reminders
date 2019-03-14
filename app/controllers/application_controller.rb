@@ -17,4 +17,8 @@ class ApplicationController < ActionController::Base
       redirect_to '/auth/cobot'
     end
   end
+
+  def show_header
+    @show_header = true
+  end
 end
