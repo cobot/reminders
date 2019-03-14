@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/langalex/font-awesome-sass
+  revision: e8363555d1ad4abb88e307f8b55a2902872e9099
+  specs:
+    font-awesome-sass (4.6.2)
+      sass (>= 3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -51,6 +58,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
+    cobot_assets (17.9.0)
     cobot_client (3.0.0)
       json (~> 2.0)
       oauth2 (~> 1.0)
@@ -256,8 +264,10 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
+  cobot_assets (~> 17.9.0)
   cobot_client
   email_validator
+  font-awesome-sass!
   jquery-rails
   launchy
   librato-metrics
@@ -272,7 +282,7 @@ DEPENDENCIES
   rails (~> 4.2.11)
   rails_12factor
   rspec-rails
-  sass-rails
+  sass-rails (~> 5.0.7)
   sentry-raven
   simple_form
   simple_postmark
@@ -286,4 +296,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.1
+   1.17.3
