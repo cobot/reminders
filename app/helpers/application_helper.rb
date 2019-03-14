@@ -13,7 +13,7 @@ Extras: {% for extra in plan.extras %}
 Price: {{plan.price | money}} {{plan.currency}}.
 
 {% if paid_for_members %}
-In addition you are paying for these members:
+In addition, you are paying for these members:
 {% for m in paid_for_members %}
 {{m.address.name}}: {{ m.plan.name }}, {{m.plan.price | money}} {{m.plan.currency}}
 {% endfor %}
