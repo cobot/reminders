@@ -2,32 +2,69 @@
 <html>
 <head>
   <title>Cobot Reminders</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+<%#= stylesheet_link_tag    "application", :media => "all" %>
+ <!--  <%#= javascript_include_tag "application" %> -->
+<!--   <%= csrf_meta_tags %> -->
+  <!-- <link rel="icon" type="image/png" href="<%#= image_path 'favicon-32x32.png' %>" sizes="32x32" />  -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <% if @custom_css && (custom_css_url = space_css_url(@space)) %>
+    <%= stylesheet_link_tag custom_css_url, media: 'all' %>
+  <% else %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  <% end %>
   <%= csrf_meta_tags %>
-  <link rel="icon" type="image/png" href="<%= image_path 'favicon-32x32.png' %>" sizes="32x32" />
 </head>
 <body>
-  <div class="container">
-    <div class="navbar">
-      <div class="navbar-inner">
-        <a class="brand" href="#">Reminders</a>
-        <ul class="nav">
-          <li class="active"><a href="/spaces">Home</a></li>
-          <% if current_user %>
-            <li><%= link_to 'Sign out', session_path, method: :delete %></li>
-          <% else %>
-            <li><%= link_to 'Sign in', '/auth/cobot' %></li>
-          <% end %>
-        </ul>
+  <% if flash[:notice] %>
+    <div id="flash" class="cb-top-notice <%= flash_type %>">
+      <div class="cb-container">
+        <p class="alert"><%= flash[:notice] %></p>
       </div>
     </div>
+  <% end %>
 
-    <% if flash[:notice] %>
-      <p class="alert"><%= flash[:notice] %></p>
-    <% end %>
+  <% if @show_header %>
+    <div class="cb-section cb-section--top-bar">
+      <div class="cb-container mw-none pt0 pb0 cf">
+     <!--    <div class="nav__logo">
+          <%#= link_to image_tag('cobot_assets/cobot-logo.svg'), root_url, class: 'logo__cobot-brand mr1' %>
+          <%#= link_to image_tag('ezeep-logo.svg'), root_url, class: 'integration-logo__badge' %>
+        </div> -->
+        <div class="fr relative">
+          <nav class="dib">
+            <%= link_to 'Sign in', 'auth/cobot', class: 'nav-link' %>
+            <a class="nav-link" href ="https://cobot.me/support">Support</a>
+            <a class= "btn btn--smaller btn--primary ml2" href="https://cobot.me">Back to Cobot</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  <% end %>    
 
+
+<!--       <div class="navbar">
+        <div class="navbar-inner">
+          <a class="brand" href="#">Reminders</a>
+          <ul class="nav">
+            <li class="active"><a href="/spaces">Home</a></li>
+            <%# if current_user %>
+              <li><%= link_to 'Sign out', session_path, method: :delete %></li>
+            <%# else %>
+              <li><%= link_to 'Sign in', '/auth/cobot' %></li>
+            <%# end %>
+          </ul>
+        </div>
+      </div> -->
+
+
+  <div class="cb-site-main">
     <%= yield %>
   </div>
+
+  <% unless @show_header %>
+    <%= render 'cobot_client/resize_script' %>
+  <% end %>
+  <%= javascript_include_tag 'application' %>
 </body>
 </html>
