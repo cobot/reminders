@@ -36,7 +36,7 @@ Reminders::Application.configure do
   # config.log_level = :debug
   config.log_level = :info
   config.lograge.enabled = true
-  config.lograge.ignore_actions = ['sessions#new']
+  config.lograge.ignore_actions = ['SessionsController#new']
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
