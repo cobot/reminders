@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6'
+ruby '~>2.6'
 
 gem 'rails', '~>4.2.11.1'
 gem 'oauth2'
