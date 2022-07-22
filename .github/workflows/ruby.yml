@@ -1,0 +1,46 @@
+name: Ruby CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up postgres
+        uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: "10.10"
+          postgresql user: test
+          postgresql password: test
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+      - name: Install deps
+        run: sudo apt-get install -y libpq-dev
+      - name: Setup DB
+        run: |
+          cp config/database.yml.github-ci config/database.yml
+          bundle exec rake db:setup
+      - name: Run Tests
+        run: bundle exec rake
+
+  dependabot-approve-and-merge:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          target: minor
