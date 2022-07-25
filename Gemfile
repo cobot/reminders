@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~>2.6'
 
-gem 'rails', '~>4.2.11.1'
+gem 'rails', '~>7.0.3.1'
 gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
