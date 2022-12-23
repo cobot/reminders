@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.4.3'
+ruby '2.7.7'
 
-gem 'rails', '~>4.2.11.1'
+gem 'rails', '~>4.2'
 gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
