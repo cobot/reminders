@@ -2,15 +2,15 @@ source 'https://rubygems.org'
 
 ruby '2.7.7'
 
-gem 'rails', '~>4.2.11'
-gem 'bigdecimal', '1.3.5' # to make ruby 2.7 work with rails 4.2
+gem 'rails', '~>5.0.0'
+gem 'bigdecimal'
 gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
 gem 'simple_form'
 gem 'email_validator'
 gem 'sentry-raven'
-gem 'pg', '~>0.21'
+gem 'pg', '~>1.0'
 gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'omniauth_cobot', '~>0.0.3'
@@ -19,7 +19,7 @@ gem 'simple_postmark'
 gem 'jquery-rails'
 gem 'test-unit'
 gem 'librato-metrics'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'uglifier', '>= 1.0.3'
 gem 'rspec-rails', groups: [:test, :development]
 

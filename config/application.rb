@@ -52,5 +52,13 @@ module Reminders
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # rails 5.0 defaults
+
+    config.active_record.belongs_to_required_by_default = true
+    config.action_controller.per_form_csrf_tokens = true
+    config.action_controller.forgery_protection_origin_check = true
+
+    ActiveSupport.halt_callback_chains_on_return_false = false
   end
 end

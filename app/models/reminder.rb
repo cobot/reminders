@@ -1,4 +1,4 @@
-class Reminder < ActiveRecord::Base
+class Reminder < ApplicationRecord
   validates_presence_of :subject, :body
   validates :days_before, numericality: {greater_than_or_equal_to: 1}
   validates :bcc, email: true, allow_blank: true
