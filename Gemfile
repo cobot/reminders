@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.7.7'
 
 gem 'rails', '~>4.2'
+gem 'bigdecimal', '1.3.5' # to make ruby 2.7 work with rails 4.2
 gem 'oauth2'
 gem 'virtus'
 gem 'liquid'
