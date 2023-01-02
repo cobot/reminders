@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_filter :require_user
+  skip_before_action :require_user
 
   def new
   end

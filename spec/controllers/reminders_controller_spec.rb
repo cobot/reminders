@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RemindersController do
   it 'requires authentication' do
-    get :index, space_id: '1'
+    get :index, params: {space_id: '1'}
 
     expect(response).to redirect_to('/auth/cobot')
   end
@@ -10,7 +10,7 @@ describe RemindersController do
   it 'works when authenticated' do
     log_in double(:user, spaces: [double(:space, to_param: '1', reminders: [double])])
 
-    get :index, space_id: '1'
+    get :index, params: {space_id: '1'}
 
     expect(response).to be_success
   end
@@ -26,6 +26,6 @@ describe RemindersController, '#create' do
 
     expect(reminder).to receive(:access_token=).with('123')
 
-    post :create, reminder: {}, space_id: 'co-up'
+    post :create, params: {reminder: {subject: 'test'}, space_id: 'co-up'}
   end
 end

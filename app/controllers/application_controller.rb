@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user
 
-  before_filter :require_user
+  before_action :require_user
 
   def current_user
     User.find session[:user_id] if session[:user_id]
